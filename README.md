@@ -60,43 +60,6 @@ separate (`validateBasicTier` in `dist/validate.js`) and Node-only for now.
 | each `metrics[]` entry | one `Indicator` per metric, one `IndicatorReport` per year | CIDS |
 | Financials: revenue, expenses | `FinancialInformation` → `FinancialIndicators` | Common Form (`cfo`) |
 
-Everything else (HQ, NTEE code, theory of change, programs, governance, net
-assets, data posture, contacts) is listed in the report under "Not carried
-over" rather than dropped silently.
-
-Rules worth knowing:
-
-- **HTML comments are removed first**, so placeholders such as
-  `<!-- Org to complete -->` never reach the capsule. If a carried-over section
-  had a drafting note ("inferred, org should confirm"), the report says so.
-- **A metric's `year` is read as a fiscal year** using `fiscal_year_end`: with
-  `06-30`, 2024 means 1 July 2023 to 30 June 2024. Use `--calendar-year` to
-  change that.
-- **IDs are stable.** The same input always gives the same `@id`s, so capsules
-  from different years can be compared and merged.
-- **No website?** IDs fall back to `urn:ein:<ein>` and the report tells you to
-  pass `--base`.
-
-## Validation
-
-`--validate` checks the capsule against the CIDS 3.2.1 Basic Tier SHACL rules
-bundled in `vendor/cids/`, fully offline. A capsule passes when there are no
-Violation-level results. Those rules cover the organization's legal name,
-Indicators, IndicatorReports and their values. They do not check
-`hasPurpose`, `hasWebAddress` or the EIN (`hasID` / `OrganizationID`).
-
-The Common Form part (financials) is **not** validated: Common Approach has
-published the Common Form ontology but no JSON-LD context or validation rules
-for it, so the capsule declares the `cfo` prefix inline. Use `--no-common-form`
-for a CIDS-only capsule.
-
-## Not done yet
-
-- Publishing to npm (`npx backpack-to-cids …`)
-- A static web page: drop in a file, download the capsule
-- Validation in the browser
-- An issuer for the EIN (`issuedBy`), contacts, programs
-- Import into Common Approach's platform has not been tested
 
 ## Tests
 

@@ -5,44 +5,81 @@ Convert a [Digital Backpack](https://github.com/Digital-Public-Goods-Network/dig
 data capsule (Common Impact Data Standard, Basic Tier, JSON-LD).
 
 > **Status: early MVP.** The converter, the command line tool and offline
-> validation work. It is not published to npm yet, and there is no web page yet.
+> validation work.
 
 ## Try it
 
 ```sh
-npm install
-npm run build
-node dist/cli.js test/fixtures/riverside-food-bank.md --validate
+npx github:commonapproach/backpack-to-cids https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md --validate
 ```
 
-This writes `riverside-food-bank.capsule.jsonld` and prints a report:
+It writes `300108263-globalgiving.capsule.jsonld` and prints a report:
 
 ```
-Capsule for Riverside Food Bank
+Capsule for GlobalGiving Foundation Inc
 
 Converted
   ✔ name → Organization.hasLegalName
   ✔ Mission → Organization.hasPurpose
-  ✔ 3 metric(s) → 2 Indicator(s) + 3 IndicatorReport(s)
-  ✔ reporting period FY2024 = 2023-07-01 to 2024-06-30
-  ✔ Financials FY2024 → Common Form FinancialInformation (revenue 1250000, expenses 1180400)
-  …
+  ✔ website → Organization.hasWebAddress
+  ✔ ein → OrganizationID.hasIdentifier
+  ✔ 2 metric(s) → 2 Indicator(s) + 2 IndicatorReport(s)
+  ✔ reporting period 2024 = 2024-01-01 to 2024-12-31
+  ✔ Financials FY2024 → Common Form FinancialInformation (revenue 91100000, expenses 116000000)
+
 Not carried over
   – hq (a Basic Tier Address needs a street address and postal code; the backpack has city/state only)
   …
-✔ Passes CIDS Basic Tier validation (56 statements checked; 0 warning(s), 1 suggestion(s))
+
+✔ Passes CIDS Basic Tier validation (45 statements checked; 0 warning(s), 2 suggestion(s))
 ```
 
-Options: `--base <iri>`, `--calendar-year`, `--no-common-form`, `--graph`,
-`-o <file>` (`-o -` for stdout). Run `node dist/cli.js --help` for details.
+Part of the capsule it writes:
 
-## As a library
+```json
+{
+  "@context": [
+    "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    { "cfo": "https://ontology.commonapproach.org/cfo#" }
+  ],
+  "@type": "cids:IndicatorReport",
+  "@id": "https://www.globalgiving.org/IndicatorReport/activenonprofitpartners2024010120241231",
+  "hasName": "GlobalGiving Foundation Inc - 2024 - active nonprofit partners",
+  "value": { "@type": "i72:Measure", "hasNumericalValue": "5000" },
+  "startedAtTime": "2024-01-01T00:00:00Z",
+  "endedAtTime": "2024-12-31T23:59:59Z",
+  "forIndicator": "https://www.globalgiving.org/Indicator/activenonprofitpartners",
+  "forOrganization": "https://www.globalgiving.org/Organization/globalgivingfoundationinc"
+}
+```
 
-```ts
+The input can be a web address (GitHub links work), a local file, or `-` for
+stdin. Options: `--base <iri>`, `--calendar-year`, `--no-common-form`,
+`--graph`, `-o <file>` (`-o -` prints the capsule instead of writing a file).
+Add `--help` for details.
+
+## In code
+
+```js
 import { convert, formatReport } from "backpack-to-cids";
 
-const { capsule, report } = convert(markdownText);
-console.log(formatReport(report));
+const url =
+  "https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md";
+
+const markdown = await (await fetch(url)).text();
+const { capsule, report } = convert(markdown);
+
+console.log(JSON.stringify(capsule, null, 2)); // the CIDS capsule (JSON-LD)
+console.error(formatReport(report)); // what was converted, and what was not
+```
+
+This is [`examples/from-github.mjs`](examples/from-github.mjs). To run it:
+
+```sh
+git clone https://github.com/commonapproach/backpack-to-cids.git
+cd backpack-to-cids
+npm install
+node examples/from-github.mjs
 ```
 
 `convert` is a pure function with one small dependency (`yaml`) and no Node

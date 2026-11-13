@@ -6,7 +6,9 @@ import { convert, formatReport, type ConvertOptions } from "./convert.js";
 const HELP = `backpack-to-cids — convert a Digital Backpack organization.md into a CIDS capsule
 
 Usage:
-  backpack-to-cids <organization.md> [options]
+  backpack-to-cids <organization.md | https://… | -> [options]
+
+The input can be a local file, a web address (GitHub links work), or "-" for stdin.
 
 Options:
   -o, --out <file>      Where to write the capsule (default: <input>.capsule.jsonld; "-" for stdout)
@@ -50,15 +52,18 @@ async function main(argv: string[]): Promise<number> {
     return 2;
   }
 
-  const { capsule, report } = convert(readFileSync(input, "utf8"), options);
+  const { capsule, report } = convert(await readInput(input), options);
   const json = `${JSON.stringify(capsule, null, 2)}\n`;
   // The report goes to stderr so `-o -` can be piped.
   const say = (text: string) => process.stderr.write(`${text}\n`);
 
+  // Reading from stdin has no file name to build on, so the capsule goes to stdout.
+  if (input === "-") out ??= "-";
   if (out === "-") {
     process.stdout.write(json);
   } else {
-    out ??= `${basename(input).replace(/\.md$/i, "")}.capsule.jsonld`;
+    const name = isUrl(input) ? new URL(input).pathname : input;
+    out ??= `${basename(name).replace(/\.md$/i, "")}.capsule.jsonld`;
     writeFileSync(out, json);
   }
 
@@ -77,6 +82,22 @@ async function main(argv: string[]): Promise<number> {
   }
   if (out !== "-") say(`\nWrote ${out}`);
   return exit;
+}
+
+const isUrl = (input: string) => /^https?:\/\//i.test(input);
+
+/** The input can be a local file, a web address, or "-" for stdin. */
+async function readInput(input: string): Promise<string> {
+  if (input === "-") return readFileSync(0, "utf8");
+  if (!isUrl(input)) return readFileSync(input, "utf8");
+  // A github.com page link ("…/blob/…") returns HTML, so fetch the raw file instead.
+  const url = input.replace(
+    /^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/(.+)$/i,
+    "https://raw.githubusercontent.com/$1/$2/$3",
+  );
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Could not download ${url} (${res.status} ${res.statusText})`);
+  return res.text();
 }
 
 main(process.argv.slice(2)).then(

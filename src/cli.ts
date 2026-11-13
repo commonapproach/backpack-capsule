@@ -3,10 +3,10 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { basename } from "node:path";
 import { convert, formatReport, type ConvertOptions } from "./convert.js";
 
-const HELP = `backpack-to-cids — convert a Digital Backpack organization.md into a CIDS capsule
+const HELP = `backpack-to-capsule — convert a Digital Backpack organization.md into a CIDS capsule
 
 Usage:
-  backpack-to-cids <organization.md | https://… | -> [options]
+  backpack-to-capsule <organization.md | https://… | -> [options]
 
 The input can be a local file, a web address (GitHub links work), or "-" for stdin.
 

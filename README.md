@@ -1,4 +1,4 @@
-# backpack-to-cids
+# backpack-to-capsule
 
 Convert a [Digital Backpack](https://github.com/Digital-Public-Goods-Network/digital-backpack)
 `organization.md` into a [CIDS](https://github.com/commonapproach/CIDS) impact
@@ -10,7 +10,7 @@ data capsule (Common Impact Data Standard, Basic Tier, JSON-LD).
 ## Try it
 
 ```sh
-npx github:commonapproach/backpack-to-cids https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md --validate
+npx github:commonapproach/backpack-to-capsule https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md --validate
 ```
 
 It writes `300108263-globalgiving.capsule.jsonld` and prints a report:
@@ -61,7 +61,7 @@ Add `--help` for details.
 ## In code
 
 ```js
-import { convert, formatReport } from "backpack-to-cids";
+import { convert, formatReport } from "backpack-to-capsule";
 
 const url =
   "https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md";
@@ -76,8 +76,8 @@ console.error(formatReport(report)); // what was converted, and what was not
 This is [`examples/from-github.mjs`](examples/from-github.mjs). To run it:
 
 ```sh
-git clone https://github.com/commonapproach/backpack-to-cids.git
-cd backpack-to-cids
+git clone https://github.com/commonapproach/backpack-to-capsule.git
+cd backpack-to-capsule
 npm install
 node examples/from-github.mjs
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "backpack-to-capsule",
+  "name": "backpack-capsule",
   "version": "0.1.0",
   "description": "Convert a Digital Backpack organization.md into a CIDS (Common Impact Data Standard) Basic Tier impact data capsule.",
   "type": "module",
@@ -12,7 +12,7 @@
     }
   },
   "bin": {
-    "backpack-to-capsule": "./dist/cli.js"
+    "backpack-capsule": "./dist/cli.js"
   },
   "files": [
     "dist",

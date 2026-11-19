@@ -2,3 +2,4 @@ node_modules/
 dist/
 *.capsule.jsonld
 .DS_Store
+*.backpack.md

@@ -1,0 +1,144 @@
+[
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Organization",
+    "@id": "https://northsidekitchen.example/Organization/northsidecommunitykitchen",
+    "hasLegalName": "Northside Community Kitchen",
+    "hasDescription": "A made-up community kitchen: we cook --> and share meals. Motto: \"eat well: together\".",
+    "hasAddress": ["https://northsidekitchen.example/Address/main"],
+    "hasOutcome": [
+      "https://northsidekitchen.example/Outcome/foodsecurity",
+      "https://northsidekitchen.example/Outcome/skills"
+    ],
+    "hasIndicator": [
+      "https://northsidekitchen.example/Indicator/mealsserved",
+      "https://northsidekitchen.example/Indicator/graduates",
+      "https://northsidekitchen.example/Indicator/volunteerhours"
+    ]
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Organization",
+    "@id": "https://example.org/Organization/funderplaceholder",
+    "hasLegalName": "A Made-up Funder"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Address",
+    "@id": "https://northsidekitchen.example/Address/main",
+    "streetAddress": "12 Example Street",
+    "addressLocality": "Hamilton",
+    "addressRegion": "ON",
+    "postalCode": "A1A 1A1",
+    "addressCountry": "Canada"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "sff:OrganizationID",
+    "@id": "https://northsidekitchen.example/OrganizationId/bn000000000",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen",
+    "hasIdentifier": "BN000000000",
+    "issuedBy": "https://codelist.commonapproach.org/CanadianCorporateRegistries#on"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Theme",
+    "@id": "https://metadata.un.org/sdg/2",
+    "hasName": "Zero hunger"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Outcome",
+    "@id": "https://northsidekitchen.example/Outcome/foodsecurity",
+    "hasName": "Improve food security",
+    "hasDescription": "Neighbours have reliable access to healthy meals.",
+    "forTheme": ["https://metadata.un.org/sdg/2"],
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen",
+    "hasIndicator": ["https://northsidekitchen.example/Indicator/mealsserved"]
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Outcome",
+    "@id": "https://northsidekitchen.example/Outcome/skills",
+    "hasName": "Build kitchen skills",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Indicator",
+    "@id": "https://northsidekitchen.example/Indicator/mealsserved",
+    "hasName": "Meals served",
+    "hasDescription": "Meals plated at the kitchen, counted daily.",
+    "unitDescription": "meals",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen",
+    "hasIndicatorReport": [
+      "https://northsidekitchen.example/IndicatorReport/mealsserved2024",
+      "https://northsidekitchen.example/IndicatorReport/mealsserved2025"
+    ]
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Indicator",
+    "@id": "https://northsidekitchen.example/Indicator/graduates",
+    "hasName": "Training graduates",
+    "unitDescription": "people",
+    "forOutcome": "https://northsidekitchen.example/Outcome/skills",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Indicator",
+    "@id": "https://northsidekitchen.example/Indicator/volunteerhours",
+    "hasName": "Volunteer hours",
+    "unitDescription": "hours",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:IndicatorReport",
+    "@id": "https://northsidekitchen.example/IndicatorReport/mealsserved2024",
+    "hasName": "Northside Community Kitchen - 2024 - Meals served",
+    "value": { "@type": "i72:Measure", "hasNumericalValue": "18250" },
+    "startedAtTime": "2024-01-01T12:00:00-08:00",
+    "endedAtTime": "2024-12-31T12:00:00-08:00",
+    "forIndicator": "https://northsidekitchen.example/Indicator/mealsserved",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:IndicatorReport",
+    "@id": "https://northsidekitchen.example/IndicatorReport/mealsserved2025",
+    "hasName": "Northside Community Kitchen - 2025 - Meals served",
+    "cids:hasComment": "Includes the new Saturday service.",
+    "value": { "@type": "i72:Measure", "hasNumericalValue": "21400" },
+    "startedAtTime": "2025-01-01T00:00:00-05:00",
+    "endedAtTime": "2025-12-31T23:59:00-05:00",
+    "forIndicator": "https://northsidekitchen.example/Indicator/mealsserved",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:IndicatorReport",
+    "@id": "https://northsidekitchen.example/IndicatorReport/graduates2025",
+    "hasName": "Training graduates, spring cohort",
+    "value": { "@type": "i72:Measure", "hasNumericalValue": "14" },
+    "startedAtTime": "2025-03-01T00:00:00-05:00",
+    "endedAtTime": "2025-06-30T23:59:00-05:00",
+    "forIndicator": "https://northsidekitchen.example/Indicator/graduates"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "sff:OrganizationProfile",
+    "@id": "https://northsidekitchen.example/OrganizationProfile/",
+    "forOrganization": "https://northsidekitchen.example/Organization/northsidecommunitykitchen",
+    "hasPrimaryContact": "https://northsidekitchen.example/Person/samplecontact"
+  },
+  {
+    "@context": "https://ontology.commonapproach.org/contexts/cidsContext.jsonld",
+    "@type": "cids:Person",
+    "@id": "https://northsidekitchen.example/Person/samplecontact",
+    "givenName": "Sample",
+    "familyName": "Contact",
+    "hasEmail": "hello@northsidekitchen.example"
+  }
+]

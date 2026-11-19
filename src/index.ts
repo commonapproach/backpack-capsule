@@ -1,5 +1,6 @@
 export {
   convert,
+  convert as toCapsule,
   formatReport,
   reportingPeriod,
   slug,
@@ -12,3 +13,4 @@ export {
   type Report,
 } from "./convert.js";
 export { parseBackpack, parseAmount, type Backpack, type BackpackMetric, type BackpackFinancials } from "./parse.js";
+export { toBackpack, type ToBackpackOptions, type ToBackpackResult } from "./reverse.js";

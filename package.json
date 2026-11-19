@@ -1,7 +1,7 @@
 {
   "name": "backpack-capsule",
   "version": "0.1.0",
-  "description": "Convert a Digital Backpack organization.md into a CIDS (Common Impact Data Standard) Basic Tier impact data capsule.",
+  "description": "Convert between Digital Backpack organization.md files and CIDS (Common Impact Data Standard) impact data capsules.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepare": "npm run build",
-    "test": "npm run build && node --test test/convert.test.js",
+    "test": "npm run build && node --test test/*.test.js",
     "convert": "node dist/cli.js"
   },
   "engines": {

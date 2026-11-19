@@ -21,6 +21,8 @@ export interface ConvertOptions {
 }
 
 export interface Report {
+  /** Heading for the printed report. Defaults to "Capsule for <organization>". */
+  title?: string;
   organization: string;
   /** What was converted, in plain language. */
   mapped: string[];
@@ -244,7 +246,7 @@ export function convert(markdown: string, options: ConvertOptions = {}): Convert
 
 /** Plain-text version of the report, for terminals and the web page. */
 export function formatReport(report: Report): string {
-  const lines: string[] = [`Capsule for ${report.organization}`];
+  const lines: string[] = [report.title ?? `Capsule for ${report.organization}`];
   const block = (title: string, items: string[], mark: string) => {
     if (!items.length) return;
     lines.push("", title);

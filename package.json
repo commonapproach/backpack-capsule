@@ -2,6 +2,16 @@
   "name": "backpack-capsule",
   "version": "0.1.0",
   "description": "Convert between Digital Backpack organization.md files and CIDS (Common Impact Data Standard) impact data capsules.",
+  "license": "MIT",
+  "author": "Common Approach to Impact Measurement",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commonapproach/backpack-capsule.git"
+  },
+  "homepage": "https://github.com/commonapproach/backpack-capsule#readme",
+  "bugs": {
+    "url": "https://github.com/commonapproach/backpack-capsule/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,10 +19,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./validate": {
+      "types": "./dist/validate.d.ts",
+      "default": "./dist/validate.js"
+    },
+    "./package.json": "./package.json"
   },
   "bin": {
-    "backpack-capsule": "./dist/cli.js"
+    "backpack-capsule": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -21,6 +36,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepare": "npm run build",
+    "prepublishOnly": "npm test",
     "test": "npm run build && node --test test/*.test.js",
     "convert": "node dist/cli.js"
   },

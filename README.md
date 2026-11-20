@@ -6,18 +6,18 @@ impact data capsules (Common Impact Data Standard, Basic Tier, JSON-LD), in
 either direction.
 
 > **Status: early MVP.** Both directions, the command line tool and offline
-> validation work. It will be available on npm soon; until then, run it
-> straight from GitHub as shown below.
+> validation work. Expect changes before 1.0.
 
 ## Try it
 
-One command does both. It looks at the input: markdown becomes a capsule, a
-capsule becomes a draft backpack.
+You need [Node.js](https://nodejs.org) 18 or newer; there is nothing else to
+install. One command does both. It looks at the input: markdown becomes a
+capsule, a capsule becomes a draft backpack.
 
 ### Backpack → capsule
 
 ```sh
-npx github:commonapproach/backpack-capsule https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md --validate
+npx backpack-capsule https://raw.githubusercontent.com/Digital-Public-Goods-Network/digital-backpack/main/examples/300108263-globalgiving.md --validate
 ```
 
 It writes `300108263-globalgiving.capsule.jsonld` and prints a report:
@@ -65,7 +65,7 @@ Part of the capsule it writes:
 ### Capsule → backpack
 
 ```sh
-npx github:commonapproach/backpack-capsule https://raw.githubusercontent.com/commonapproach/backpack-capsule/main/test/fixtures/northside-kitchen.jsonld
+npx backpack-capsule https://raw.githubusercontent.com/commonapproach/backpack-capsule/main/test/fixtures/northside-kitchen.jsonld
 ```
 
 It writes `northside-kitchen.backpack.md`, a **draft** `organization.md`. What
@@ -125,6 +125,10 @@ converting a backpack: `--base <iri>`, `--calendar-year`, `--no-common-form`,
 
 ## In code
 
+```sh
+npm install backpack-capsule
+```
+
 ```js
 import { toCapsule, toBackpack, formatReport } from "backpack-capsule";
 
@@ -154,7 +158,15 @@ node examples/from-github.mjs
 
 Both functions are pure, with one small dependency (`yaml`) and no Node APIs,
 so they should also run in the browser (not tested yet). Validation is
-separate (`validateBasicTier` in `dist/validate.js`) and Node-only for now.
+separate and Node-only for now:
+
+```js
+import { validateBasicTier, formatValidation } from "backpack-capsule/validate";
+
+const result = await validateBasicTier(capsule);
+console.log(result.conforms); // true when there are no Basic Tier violations
+console.error(formatValidation(result));
+```
 
 ## What gets converted
 

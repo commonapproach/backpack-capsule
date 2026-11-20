@@ -1,0 +1,44 @@
+# Publishes the package to npm when a version tag (for example v0.1.0) is pushed.
+# To release: bump "version" in package.json, commit, then
+#   git tag v<version> && git push origin v<version>
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write # lets npm verify the release came from this repository
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Check the tag matches the version in package.json
+        run: |
+          version="v$(node -p "require('./package.json').version")"
+          if [ "$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+
+      - run: npm ci
+
+      - run: npm test
+
+      - run: npm publish --provenance --access public
+        env:
+          # Only needed for the very first release, before the package exists on npm.
+          # Once trusted publishing is set up on npmjs.com, delete these two lines
+          # and the NPM_TOKEN secret.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
